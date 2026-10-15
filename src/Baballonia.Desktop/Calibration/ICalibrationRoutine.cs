@@ -425,6 +425,12 @@ public class EyeCalibration(
             // supervised expression). Same flags as the neutral gaze pass; only the name/duration differ.
             new BaseTutorialStep("gazeexprtutorial", TimeSpan.FromSeconds(10)),
             new GazeCaptureStep(eyePipelineEventBus, TimeSpan.FromSeconds(60), "gazeexpr", CaptureFlags.FLAG_FREE_EXPRESSION),
+            // Headset-slip pass: static reticle at a few points, user keeps fixating while moving the
+            // headset on their face, so gaze is seen under different headset positions.
+            new BaseTutorialStep("sliptutorial", TimeSpan.FromSeconds(10)),
+            eyeCaptureStepFactory.CreateGazeExpression("slip",
+                CaptureFlags.FLAG_GOOD_DATA | CaptureFlags.FLAG_VERSION_BIT1 | CaptureFlags.FLAG_SLIP,
+                TimeSpan.FromSeconds(30), lid: 1),
             new BaseTutorialStep("blinktutorial", TimeSpan.FromSeconds(10)),
             eyeCaptureStepFactory.Create("blink",
                 CaptureFlags.FLAG_GOOD_DATA |
@@ -448,7 +454,7 @@ public class EyeCalibration(
             //steps.Add(_eyeCaptureStepFactory.Create("covergence",
             //    CaptureFlags.FLAG_GOOD_DATA | CaptureFlags.FLAG_WHATEVER_NOT_IMPLEMENTED));
 
-            new MergeBinsStep("gaze.bin", "gazeexpr.bin", "blink.bin", "widen.bin", "squint.bin", "brow.bin"),
+            new MergeBinsStep("gaze.bin", "gazeexpr.bin", "slip.bin", "blink.bin", "widen.bin", "squint.bin", "brow.bin"),
             // new MergeBinsStep("gaze.bin", "blink.bin"),
             new TrainerCalibrationStep(trainer),
             new CommandDispatchStep("close")
@@ -466,6 +472,10 @@ public class EyeCalibration(
             new GazeCaptureStep(eyePipelineEventBus, TimeSpan.FromSeconds(10)),
             new BaseTutorialStep("gazeexprtutorial", TimeSpan.FromSeconds(4)),
             new GazeCaptureStep(eyePipelineEventBus, TimeSpan.FromSeconds(15), "gazeexpr", CaptureFlags.FLAG_FREE_EXPRESSION),
+            new BaseTutorialStep("sliptutorial", TimeSpan.FromSeconds(4)),
+            eyeCaptureStepFactory.CreateGazeExpression("slip",
+                CaptureFlags.FLAG_GOOD_DATA | CaptureFlags.FLAG_VERSION_BIT1 | CaptureFlags.FLAG_SLIP,
+                TimeSpan.FromSeconds(20), lid: 1),
             new BaseTutorialStep("blinktutorial", TimeSpan.FromSeconds(4)),
             eyeCaptureStepFactory.Create("blink",
                 CaptureFlags.FLAG_GOOD_DATA |
@@ -487,7 +497,7 @@ public class EyeCalibration(
                 eyeCaptureStepFactory.CreateGazeExpression("brow",
                 CaptureFlags.FLAG_GOOD_DATA | CaptureFlags.FLAG_IN_MOVEMENT | CaptureFlags.FLAG_VERSION_BIT1, TimeSpan.FromSeconds(20), browAngry: 1, lid: 1),
 
-            new MergeBinsStep("gaze.bin", "gazeexpr.bin", "blink.bin", "widen.bin", "squint.bin", "brow.bin"),
+            new MergeBinsStep("gaze.bin", "gazeexpr.bin", "slip.bin", "blink.bin", "widen.bin", "squint.bin", "brow.bin"),
             // new MergeBinsStep("gaze.bin", "blink.bin"),
             new TrainerCalibrationStep(trainer),
             new CommandDispatchStep("close")

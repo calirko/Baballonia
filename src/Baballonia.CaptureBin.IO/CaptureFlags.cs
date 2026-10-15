@@ -38,6 +38,11 @@ public static class CaptureFlags
     // FLAG_ROUTINE_BIT1 (gaze-valid), so they train gaze too but are excluded from supervised expression.
     public const uint FLAG_FREE_EXPRESSION = FLAG_ROUTINE_2;
 
+    // Headset-slip pass: the reticle holds still at a few points while the user moves the headset on
+    // their face and keeps fixating. Aliases FLAG_ROUTINE_3. Frames also carry FLAG_ROUTINE_BIT1
+    // (gaze-valid), so they train gaze directly; the trainer can use this bit to oversample them.
+    public const uint FLAG_SLIP = FLAG_ROUTINE_3;
+
     public const uint FLAG_CONVERGENCE = 1u << 24;
     public const uint FLAG_IN_MOVEMENT = 1u << 25;
     public const uint FLAG_RESTING = 1u << 26; // Unused right now, was used to denote tutorial sections
